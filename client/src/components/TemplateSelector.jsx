@@ -31,10 +31,9 @@ const TemplateSelector = ({ selectedTemplate, onChange }) => {
     <div className="relative">
       <button
         onClick={() => setOpen(!isopen)}
-        className="flex items-center gap-1
-text-sm text-blue-600 bg-gradient-to-br from-blue-50 to-blue-100
-ring-blue-300 hover: ring transition-all px-3 py-2 rounded-lg">
-        <Layout size={14} /><span className="max-sm:hidden"> Template</span>
+        className="flex items-center gap-1 text-sm text-blue-600 bg-gradient-to-br from-blue-50 to-blue-100 ring-blue-300 hover:ring transition-all px-3 py-2 rounded-lg">
+        <Layout size={14} />
+        <span className="max-sm:hidden"> Template</span>
       </button>
       {isopen && (
         <div className="absolute top-full w-xs p-3 mt-2 space-y-3 z-10 bg-white rounded-md border border-gray-200 shadow-sm">

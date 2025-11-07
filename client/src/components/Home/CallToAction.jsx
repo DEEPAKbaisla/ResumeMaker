@@ -10,7 +10,7 @@ const CallToAction = () => {
           Build a Professional Resume That Helps you Stand Out and Get Hired
         </p>
         <a
-          href="https://prebuiltui.com"
+          href=""
           className="flex items-center gap-2 rounded py-3 px-8 bg-green-600 hover:bg-green-700 transition text-white">
           <span>Get Started</span>
           <svg

@@ -10,14 +10,26 @@ const app = express();
 const PORT = process.env.PORT || 4444;
 app.use(express.json());
 // app.use(cors());
+// app.use(
+//   cors({
+//     origin: ["localhost:5173", "https://resumebuilder-silk-theta.vercel.app"],
+//     credentials: true,
+//     allowedHeaders: ["Content-Type", "Authorization"], // ✅ crucial
+//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   })
+// );
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? ["https://resumebuilder-silk-theta.vercel.app"] // your deployed frontend
+    : ["http://localhost:5173"]; // your local frontend
+
 app.use(
   cors({
-    origin: "https://resumebuilder-silk-theta.vercel.app", // your Vite frontend URL
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"], // ✅ crucial
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    origin: allowedOrigins,
+    credentials: true, // if you’re using cookies/auth
   })
 );
+console.log("Running in:", process.env.NODE_ENV);
 
 connectDB();
 app.get("/", (req, res) => res.send("server is running .."));
