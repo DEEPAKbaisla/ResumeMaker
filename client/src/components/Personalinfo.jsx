@@ -56,74 +56,84 @@ const Personalinfo = ({
     { key: "website", label: "Personal Website", icon: Globe, type: "url" },
   ];
   return (
-    <div>
-      <h3 className="text-lg font-semibold text-gray-900">
-        {" "}
-        Personal Information
-      </h3>
-      <p className="text-sm text-gray-600">Get Started with the personal</p>
-      <div className="flex items-center gap-2">
-        <label>
+    <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+      <div className="mb-6">
+        <h3 className="text-xl font-bold text-slate-900">
+          Personal Information
+        </h3>
+        <p className="text-sm text-slate-500 mt-1">Get started by adding your basic contact details.</p>
+      </div>
+
+      <div className="flex items-center gap-4 mb-6">
+        <label className="cursor-pointer group">
           {data.image ? (
-            <img
-              src={
-                typeof data.image === "string"
-                  ? data.image
-                  : URL.createObjectURL(data.image)
-              }
-              alt="user-image"
-              className="w-16 h-16 rounded-full object-cover mt-5 ring ring-slate-300 hover:opacity-80"
-            />
+            <div className="relative size-20 rounded-full">
+              <img
+                src={
+                  typeof data.image === "string"
+                    ? data.image
+                    : URL.createObjectURL(data.image)
+                }
+                alt="user-image"
+                className="w-full h-full rounded-full object-cover ring-2 ring-slate-200 group-hover:ring-green-400 transition-all shadow-sm"
+              />
+              <div className="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                 <span className="text-white text-xs font-medium">Change</span>
+              </div>
+            </div>
           ) : (
-            <div className="inline-flex items-center gap-2 mt-5 text-slate-600 hover:text-slate-700 cursor-pointer ">
-              <User className="size-10 p-2.5 border rounded-full " /> upload
-              user image
+            <div className="flex items-center gap-3 px-4 py-3 bg-slate-50 border border-slate-200 border-dashed rounded-xl text-slate-600 hover:text-green-600 hover:border-green-400 hover:bg-green-50 transition-all">
+              <div className="p-2 bg-white rounded-full shadow-sm">
+                 <User className="size-5" />
+              </div>
+              <span className="text-sm font-medium">Upload Photo</span>
             </div>
           )}
           <input
             type="file"
-            accept="image/jpeg ,image/png"
+            accept="image/jpeg,image/png"
             className="hidden"
             onChange={(e) => handleChange("image", e.target.files[0])}
           />
         </label>
         {typeof data.image === "object" && (
-          <div className="flex flex-col gap-1 pl-4 text-sm">
-            <p>Remove Background</p>
-            <label className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3">
+          <div className="flex flex-col gap-1.5 p-3 bg-slate-50 border border-slate-100 rounded-xl">
+            <p className="text-xs font-medium text-slate-600">Remove Background</p>
+            <label className="relative inline-flex items-center cursor-pointer">
               <input
                 className="sr-only peer"
                 type="checkbox"
                 onChange={() => setremoveBackground((prev) => !prev)}
                 checked={removeBackground}
               />
-              <div className="w-9 h-5 bg-slate-300 rounded-full peer peer-checked:bg-green-600 transition-colors duration-200"></div>
-              <span className="dot absolute left-1 top-1 w-3 h-3 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-4">
-                {" "}
-              </span>
+              <div className="w-10 h-5 bg-slate-200 rounded-full peer peer-checked:bg-green-500 transition-colors duration-200 shadow-inner"></div>
+              <span className="absolute left-1 top-1 w-3 h-3 bg-white rounded-full shadow transition-transform duration-200 peer-checked:translate-x-5"></span>
             </label>
           </div>
         )}
       </div>
-      {fields.map((field) => {
-        const Icon = field.icon;
-        return (
-          <div key={field.key} className="space-y-1 mt-5">
-            <label className="flex itmes-center gap-2 text-sm font-medium text-gray-600">
-              <Icon className="size-4" />
-              {field.label}
-              {field.required && <span className="text-red-500">*</span>}
-            </label>
-            <input
-              type={field.type}
-              value={data[field.key] || ""}
-              onChange={(e) => handleChange(field.key, e.target.value)}
-              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue focus:border-blue-500 outline-none transition-colors text-sm "
-              placeholder={`Enter your ${field.label.toLocaleLowerCase()}`}
-            />
-          </div>
-        );
-      })}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {fields.map((field) => {
+          const Icon = field.icon;
+          return (
+            <div key={field.key} className="space-y-1.5">
+              <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700">
+                <Icon className="size-4 text-slate-400" />
+                {field.label}
+                {field.required && <span className="text-red-500">*</span>}
+              </label>
+              <input
+                type={field.type}
+                value={data[field.key] || ""}
+                onChange={(e) => handleChange(field.key, e.target.value)}
+                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-slate-800 placeholder-slate-400 font-medium"
+                placeholder={`e.g. ${field.label}`}
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -1,4 +1,11 @@
-import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Linkedin,
+  Globe,
+  ArrowUpRight as ArrowIcon,
+} from "lucide-react";
 
 const ClassicTemplate = ({ data, accentColor }) => {
   const formatDate = (dateStr) => {
@@ -21,12 +28,6 @@ const ClassicTemplate = ({ data, accentColor }) => {
         </h1>
 
         <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
-          {/* {data.personal_info?.email && (
-                        <div className="flex items-center gap-1">
-                            <Mail className="size-4" />
-                            <span>{data.personal_info.email}</span>
-                        </div>
-                    )} */}
           {data.personal_info?.email && (
             <div className="flex items-center gap-1">
               <Mail className="size-4" />
@@ -151,7 +152,28 @@ const ClassicTemplate = ({ data, accentColor }) => {
                 key={index}
                 className="flex justify-between items-start border-l-3 border-gray-300 pl-6">
                 <div>
-                  <li className="font-semibold text-gray-800 ">{proj.name}</li>
+                  <li className="font-semibold text-gray-800 flex items-center">
+                    {proj.link ? (
+                      <a
+                        href={
+                          proj.link.startsWith("http")
+                            ? proj.link
+                            : `https://${proj.link}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline flex items-center"
+                        style={{ color: accentColor }}>
+                        {proj.name}
+                        <ArrowIcon
+                          size={14}
+                          className="inline-block ml-1.5 flex-shrink-0"
+                        />
+                      </a>
+                    ) : (
+                      proj.name
+                    )}
+                  </li>
                   <p className="text-gray-600">{proj.description}</p>
                 </div>
               </div>

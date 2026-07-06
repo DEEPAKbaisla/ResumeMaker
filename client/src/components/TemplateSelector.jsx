@@ -26,6 +26,11 @@ const TemplateSelector = ({ selectedTemplate, onChange }) => {
       name: "Minimal",
       preview: "Ultra-clean design that puts your content front and center",
     },
+    {
+      id: "ats-friendly",
+      name: "Ats friendly",
+      preview: "Professional layout inspired by Sheryians Coding School",
+    },
   ];
   return (
     <div className="relative">

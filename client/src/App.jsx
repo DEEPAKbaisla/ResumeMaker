@@ -1,46 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Layout from "./pages/Layout";
-import ResumeBuilder from "./pages/ResumeBuilder";
-import Preview from "./pages/Preview";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
 import { useDispatch } from "react-redux";
-import api from "./configs/api";
-import { login, setLoading } from "./app/features/authSlice";
 import { Toaster } from "react-hot-toast";
 
+import api from "./configs/api";
+import { login, setLoading } from "./app/features/authSlice";
+
+// Lazy-loaded pages
+const Home = lazy(() => import("./pages/Home"));
+const Layout = lazy(() => import("./pages/Layout"));
+const ResumeBuilder = lazy(() => import("./pages/ResumeBuilder"));
+const Preview = lazy(() => import("./pages/Preview"));
+const Login = lazy(() => import("./pages/Login"));
+const VerifyOtp = lazy(() => import("./pages/VerifyOtp"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+
 const App = () => {
-  // const dispatch = useDispatch();
-
-  // const getUserData = async () => {
-  //   const token = localStorage.getItem("token");
-
-  //   try {
-  //     if (token) {
-  //       const { data } = await api.get("/api/users/data", {
-  //         headers: { Authorization: token },
-  //       });
-  //       if (data.user) {
-  //         dispatch(login({ token, user: data.user }));
-  //       } else {
-  //         dispatch(setLoading(false));
-  //       }
-  //     }
-  //   } catch (error) {
-  //     dispatch(setLoading(false));
-  //     console.log(error.message);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getUserData();
-  // }, []);
-
   const dispatch = useDispatch();
 
   const getUserData = async () => {
     const token = localStorage.getItem("token");
+
     try {
       if (!token) {
         dispatch(setLoading(false));
@@ -60,7 +40,7 @@ const App = () => {
       dispatch(setLoading(false));
       console.log(
         "Fetch user data error:",
-        error.response?.data || error.message
+        error.response?.data || error.message,
       );
     }
   };
@@ -69,17 +49,72 @@ const App = () => {
     getUserData();
   }, []);
 
+  const Loader = () => {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white">
+        <div className="flex gap-2">
+          <span className="h-3 w-3 rounded-full bg-green-600 animate-bounce"></span>
+          <span
+            className="h-3 w-3 rounded-full bg-green-600 animate-bounce"
+            style={{ animationDelay: "0.15s" }}></span>
+          <span
+            className="h-3 w-3 rounded-full bg-green-600 animate-bounce"
+            style={{ animationDelay: "0.3s" }}></span>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
-      <Toaster />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="app" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="builder/:resumeId" element={<ResumeBuilder />} />
-        </Route>
-        <Route path="view/:resumeId" element={<Preview />} />
-      </Routes>
+      {/* <Toaster /> */}
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#fff",
+            color: "#111827",
+            border: "1px solid #e5e7eb",
+            borderRadius: "12px",
+            padding: "16px",
+            boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+          },
+          success: {
+            iconTheme: {
+              primary: "#22c55e",
+              secondary: "#fff",
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: "#ef4444",
+              secondary: "#fff",
+            },
+          },
+        }}
+      />
+
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center min-h-screen">
+            <Loader />
+          </div>
+        }>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
+
+          <Route path="app" element={<Layout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="builder/:resumeId" element={<ResumeBuilder />} />
+          </Route>
+
+          <Route path="view/:resumeId" element={<Preview />} />
+        </Routes>
+      </Suspense>
     </>
   );
 };

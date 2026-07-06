@@ -11,7 +11,6 @@ const Summary = ({ data, onChange, setResumeData }) => {
   const generateSummary = async () => {
     try {
       setIsGenerating(true);
-      console.log(data);
       const prompt = `enhance my professional summary ${data}`;
       const response = await api.post(
         "/api/ai/enhance-pro-sum",
@@ -29,73 +28,40 @@ const Summary = ({ data, onChange, setResumeData }) => {
     }
   };
 
-  // const generateSummary = async (summaryText) => {
-  //   try {
-  //     setIsGenerating(true);
-  //     if (!summaryText) {
-  //       toast.error("No summary found to enhance!");
-  //       return;
-  //     }
-
-  //     console.log("AI enhance input:", summaryText);
-  //     const prompt = `Enhance my professional summary: "${summaryText}"`;
-
-  //     const response = await api.post(
-  //       "/api/ai/enhance-pro-sum",
-  //       { userContent: prompt },
-  //       { headers: { Authorization: `Bearer ${token}` } }
-  //     );
-
-  //     console.log("AI Response:", response.data);
-
-  //     setResumeData((prev) => ({
-  //       ...prev,
-  //       professional_summary: response.data.enhancedContent,
-  //     }));
-  //   } catch (error) {
-  //     toast.error(error?.response?.data?.message || error.message);
-  //   } finally {
-  //     setIsGenerating(false);
-  //   }
-  // };
-
- 
-
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+      <div className="flex items-end justify-between mb-6">
         <div>
-          <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 ">
+          <h3 className="text-xl font-bold text-slate-900">
             Professional Summary
           </h3>
-          <p className="text-sm text-gray-500  ">
-            Add summary for your resume here
+          <p className="text-sm text-slate-500 mt-1">
+            Write a compelling overview of your career.
           </p>
         </div>
         <button
-          disabled={isGenerating}
+          disabled={isGenerating || !data}
           onClick={generateSummary}
-          className="flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50">
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-indigo-50 text-indigo-700 rounded-lg border border-indigo-100 hover:bg-indigo-100 hover:border-indigo-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm">
           {isGenerating ? (
             <Loader2 className="size-4 animate-spin" />
           ) : (
             <Sparkles className="size-4" />
           )}
-
-          {isGenerating ? "Enhancing..." : " AI Enhance"}
+          {isGenerating ? "Enhancing..." : "AI Enhance"}
         </button>
       </div>
-      <div className="mt-6">
+
+      <div className="space-y-3">
         <textarea
           rows={7}
           value={data || ""}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full p-3 px-4 mt-2 border text-sm border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transiton-colors resize-none"
-          placeholder="Write a compelling professional summary that highlights your key strengths and career objectives ..."
+          className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-slate-800 placeholder-slate-400 font-medium resize-none"
+          placeholder="e.g. Results-driven Software Engineer with 5+ years of experience building scalable web applications..."
         />
-        <p className="text-xs text-gray-500 max-w-4/5 mx-auto text-center">
-          Tip:Keep it concise (3-4 sentences) and focus on your most relevant
-          achievements and skills .
+        <p className="text-xs font-medium text-slate-400 text-center">
+          Tip: Keep it concise (3-4 sentences) and focus on your most relevant achievements.
         </p>
       </div>
     </div>

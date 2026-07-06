@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowUpRight as ArrowIcon } from "lucide-react";
 
 const MinimalImageTemplate = ({ data, accentColor }) => {
   const formatDate = (dateStr) => {
@@ -12,8 +12,8 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
 
   return (
     <div className="max-w-5xl mx-auto bg-white text-zinc-800">
-      <div className="grid grid-cols-3">
-        <div className="col-span-1  py-10">
+      <div className="grid grid-cols-1 md:grid-cols-3">
+        <div className="md:col-span-1 py-10">
           {/* Image */}
           {data.personal_info?.image &&
           typeof data.personal_info.image === "string" ? (
@@ -38,7 +38,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
         </div>
 
         {/* Name + Title */}
-        <div className="col-span-2 flex flex-col justify-center py-10 px-8">
+        <div className="md:col-span-2 flex flex-col justify-center py-10 px-8">
           <h1 className="text-4xl font-bold text-zinc-700 tracking-widest">
             {data.personal_info?.full_name || "Your Name"}
           </h1>
@@ -48,7 +48,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
         </div>
 
         {/* Left Sidebar */}
-        <aside className="col-span-1 border-r border-zinc-400 p-6 pt-0">
+        <aside className="md:col-span-1 md:border-r border-b md:border-b-0 border-zinc-400 p-6 pt-0">
           {/* Contact */}
           <section className="mb-8">
             <h2 className="text-sm font-semibold tracking-widest text-zinc-600 mb-3">
@@ -66,7 +66,9 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
               {data.personal_info?.email && (
                 <div className="flex items-center gap-2 ">
                   <Mail size={14} style={{ color: accentColor }} />
-                  <a href={`mailto:${data.personal_info.email}`}>{data.personal_info.email}</a>
+                  <a href={`mailto:${data.personal_info.email}`}>
+                    {data.personal_info.email}
+                  </a>
                 </div>
               )}
               {data.personal_info?.location && (
@@ -114,7 +116,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
         </aside>
 
         {/* Right Content */}
-        <main className="col-span-2 p-8 pt-0">
+        <main className="md:col-span-2 p-6 sm:p-8 pt-4 md:pt-0">
           {/* Summary */}
           {data.professional_summary && (
             <section className="mb-8">
@@ -176,8 +178,27 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
               <div className="space-y-4">
                 {data.project.map((project, index) => (
                   <div key={index}>
-                    <h3 className="text-md font-medium text-zinc-800 mt-3">
-                      {project.name}
+                    <h3 className="text-md font-medium text-zinc-800 mt-3 flex items-center">
+                      {project.link ? (
+                        <a
+                          href={
+                            project.link.startsWith("http")
+                              ? project.link
+                              : `https://${project.link}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:underline flex items-center"
+                          style={{ color: accentColor }}>
+                          {project.name}
+                          <ArrowIcon
+                            size={14}
+                            className="inline-block ml-1.5 flex-shrink-0"
+                          />
+                        </a>
+                      ) : (
+                        project.name
+                      )}
                     </h3>
                     <p className="text-sm mb-1" style={{ color: accentColor }}>
                       {project.type}
@@ -197,7 +218,6 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
         </main>
       </div>
     </div>
-    
   );
 };
 

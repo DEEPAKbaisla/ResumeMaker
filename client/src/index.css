@@ -9,12 +9,26 @@
   button {
     @apply cursor-pointer;
   }
-  input:not([type="checkbox"]):not([type="email"]):not([type="password"]):not(
-      #text
-    ) {
+  input:not(.no-global-input):not([type="checkbox"]):not([type="email"]):not(
+      [type="password"]
+    ):not(#text) {
     @apply outline-none focus:ring border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg;
   }
   textarea {
     @apply outline-none focus:ring border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg resize-none;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+
+  button {
+    display: none !important;
+  }
+
+  .no-print {
+    display: none !important;
   }
 }

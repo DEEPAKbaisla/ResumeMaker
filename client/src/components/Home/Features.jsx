@@ -1,126 +1,97 @@
 import React from "react";
-import { Zap } from "lucide-react";
-import Title from "./Title";
+import { Zap, Activity, Shield, FileText } from "lucide-react";
 
 const Features = () => {
-  const [isHover, setIsHover] = React.useState(false);
   return (
     <div
       id="features"
-      className="flex flex-col items-center my-10 scroll-mt-12">
-      <div className="flex items-center gap-2 text-sm text-green-600 bg-green-400/10  rounded-full px-6 py-1.5">
-        <Zap width={14} />
-        <span>Simple process</span>
+      className="flex flex-col items-center py-20 px-4 md:px-16 lg:px-24 xl:px-40 bg-slate-50 text-slate-900 scroll-mt-12">
+      <div className="flex items-center gap-2 text-sm text-green-700 border border-green-200 bg-green-100 rounded-full px-5 py-1.5 mb-6 shadow-sm">
+        <Zap width={14} className="fill-green-600" />
+        <span className="font-medium">Simple process</span>
       </div>
-      <Title
-        title="Build your resume"
-        description="Our streamlined process helps you to create a professinal reusme in minutes with intelligent AI-powered tools and features."
-      />
-      <div className="flex flex-col md:flex-row items-center justify-center xl:-mt-10">
-        <img
-          className="max-w-2xl w-full xl:-ml-32"
-          src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/features/group-image-1.png"
-          alt=""
-        />
-        <div
-          className="px-4 md:px-0"
-          onMouseEnter={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}>
-          <div
-            className={
-              "flex items-center justify-center gap-6 max-w-md group cursor-pointer"
-            }>
-            <div
-              className={`p-6 group-hover:bg-violet-100 border border-transparent group-hover:border-violet-300  flex gap-4 rounded-xl transition-colors ${
-                !isHover ? "border-violet-300 bg-violet-100" : ""
-              }`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="size-6 stroke-violet-600">
-                <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
-                <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
-              </svg>
-              <div className="space-y-2">
-                <h3 className="text-base font-semibold text-slate-700">
-                  Real-Time Analytics
-                </h3>
-                <p className="text-sm text-slate-600 max-w-xs">
-                  Get instant insights into your finances with live dashboards.
-                </p>
+      
+      <div className="max-w-3xl text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-slate-900">Build your resume in minutes</h2>
+        <p className="text-slate-600 text-lg">
+          Our streamlined process helps you to create a professional resume with intelligent AI-powered tools and features designed to get you hired.
+        </p>
+      </div>
+
+      {/* Bento Grid Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl relative z-10">
+        
+        {/* Large Feature Card */}
+        <div className="col-span-1 md:col-span-2 lg:col-span-2 group relative p-8 rounded-3xl border border-slate-200 bg-white hover:shadow-xl transition-all duration-300 overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-violet-100 rounded-full blur-[80px] -z-10 group-hover:bg-violet-200 transition-all duration-500"></div>
+          <div className="flex flex-col h-full justify-between">
+            <div>
+              <div className="h-12 w-12 rounded-2xl bg-violet-100 flex items-center justify-center border border-violet-200 mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Activity className="text-violet-600 size-6" />
               </div>
+              <h3 className="text-2xl font-bold mb-3 text-slate-800">Real-Time Analytics</h3>
+              <p className="text-slate-600 max-w-sm">
+                Get instant insights into your resume's performance, ATS score, and view counts with our live dashboard.
+              </p>
             </div>
-          </div>
-          <div className="flex items-center justify-center gap-6 max-w-md group cursor-pointer">
-            <div className="p-6 group-hover:bg-green-100 border border-transparent group-hover:border-green-300 flex gap-4 rounded-xl transition-colors">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="size-6 stroke-green-600">
-                <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
-              </svg>
-              <div className="space-y-2">
-                <h3 className="text-base font-semibold text-slate-700">
-                  Bank-Grade Security
-                </h3>
-                <p className="text-sm text-slate-600 max-w-xs">
-                  End-to-end encryption, 2FA, compliance with GDPR standards.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center gap-6 max-w-md group cursor-pointer">
-            <div className="p-6 group-hover:bg-orange-100 border border-transparent group-hover:border-orange-300 flex gap-4 rounded-xl transition-colors">
-              <svg
-                className="size-6 stroke-orange-600"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round">
-                <path d="M12 15V3" />
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <path d="m7 10 5 5 5-5" />
-              </svg>
-              <div className="space-y-2">
-                <h3 className="text-base font-semibold text-slate-700">
-                  Customizable Reports
-                </h3>
-                <p className="text-sm text-slate-600 max-w-xs">
-                  Export professional, audit-ready financial reports for tax or
-                  internal review.
-                </p>
+            <div className="mt-8 relative h-48 rounded-xl border border-slate-100 bg-slate-50 overflow-hidden shadow-inner">
+              {/* Fake Dashboard Graphic */}
+              <div className="absolute bottom-0 left-0 right-0 h-32 flex items-end gap-2 px-6 pb-4 opacity-80 group-hover:opacity-100 transition-opacity">
+                {[40, 70, 45, 90, 65, 100, 80].map((h, i) => (
+                  <div key={i} className="w-full bg-gradient-to-t from-violet-500 to-violet-300 rounded-t-sm shadow-sm" style={{ height: `${h}%` }}></div>
+                ))}
               </div>
             </div>
           </div>
         </div>
+
+        {/* Standard Feature Card 1 */}
+        <div className="group relative p-8 rounded-3xl border border-slate-200 bg-white hover:shadow-xl transition-all duration-300 overflow-hidden">
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-green-100 rounded-full blur-[80px] -z-10 group-hover:bg-green-200 transition-all duration-500"></div>
+          <div className="h-12 w-12 rounded-2xl bg-green-100 flex items-center justify-center border border-green-200 mb-6 group-hover:scale-110 transition-transform duration-300">
+            <Shield className="text-green-600 size-6" />
+          </div>
+          <h3 className="text-2xl font-bold mb-3 text-slate-800">Bank-Grade Security</h3>
+          <p className="text-slate-600">
+            End-to-end encryption, 2FA, and full compliance with GDPR standards ensuring your personal data is safe.
+          </p>
+        </div>
+
+        {/* Standard Feature Card 2 */}
+        <div className="group relative p-8 rounded-3xl border border-slate-200 bg-white hover:shadow-xl transition-all duration-300 overflow-hidden">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-orange-100 rounded-full blur-[80px] -z-10 group-hover:bg-orange-200 transition-all duration-500"></div>
+          <div className="h-12 w-12 rounded-2xl bg-orange-100 flex items-center justify-center border border-orange-200 mb-6 group-hover:scale-110 transition-transform duration-300">
+            <FileText className="text-orange-600 size-6" />
+          </div>
+          <h3 className="text-2xl font-bold mb-3 text-slate-800">Customizable Templates</h3>
+          <p className="text-slate-600">
+            Export professional, ATS-friendly resumes in PDF format tailored for modern hiring systems.
+          </p>
+        </div>
+
+        {/* Wide Feature Card */}
+        <div className="col-span-1 md:col-span-2 lg:col-span-2 group relative p-8 rounded-3xl border border-slate-200 bg-white hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col sm:flex-row items-center gap-8">
+           <div className="absolute bottom-0 right-0 w-64 h-64 bg-blue-100 rounded-full blur-[80px] -z-10 group-hover:bg-blue-200 transition-all duration-500"></div>
+           <div className="flex-1">
+             <div className="h-12 w-12 rounded-2xl bg-blue-100 flex items-center justify-center border border-blue-200 mb-6 group-hover:scale-110 transition-transform duration-300">
+               <Zap className="text-blue-600 size-6" />
+             </div>
+             <h3 className="text-2xl font-bold mb-3 text-slate-800">AI Content Generation</h3>
+             <p className="text-slate-600">
+               Struggling with what to write? Our AI analyzes your role and generates impactful bullet points and summaries instantly.
+             </p>
+           </div>
+           <div className="w-full sm:w-64 h-40 rounded-xl border border-slate-100 bg-slate-50 overflow-hidden p-4 relative shadow-inner">
+              <div className="w-3/4 h-3 bg-slate-200 rounded-full mb-3"></div>
+              <div className="w-full h-3 bg-slate-200 rounded-full mb-3"></div>
+              <div className="w-5/6 h-3 bg-slate-200 rounded-full mb-3"></div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-blue-100 border border-blue-300 flex items-center justify-center animate-pulse shadow-md">
+                 <div className="w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+              </div>
+           </div>
+        </div>
+
       </div>
-      <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-            
-                * {
-                    font-family: 'Poppins', sans-serif;
-                }
-            `}</style>
     </div>
   );
 };

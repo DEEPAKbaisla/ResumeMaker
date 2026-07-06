@@ -7,12 +7,14 @@ const ColorPicker = ({ selectedColor, onChange }) => {
     { name: "Indigo", value: "#6366F1" },
     { name: "Purple", value: "#8B5CF6" },
     { name: "Green", value: "#10B981" },
-    { name: "Red", value: "#EF4444" },
     { name: "Orange", value: "#F97316" },
     { name: "Teal", value: "#14B8A6" },
-    { name: "Pink", value: "#EC4899" },
     { name: "Gray", value: "#6B7280" },
     { name: "Black", value: "#1F2937" },
+    { name: "Navy", value: "#1E3A8A" },
+    { name: "Slate", value: "#475569" },
+    { name: "Emerald", value: "#059669" },
+    { name: "Cyan", value: "#0891B2" },
   ];
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -23,9 +25,7 @@ const ColorPicker = ({ selectedColor, onChange }) => {
         <Palette size={16} /> <span className="max-sm:hidden ">Accent</span>
       </button>
       {isOpen && (
-        <div
-          className="grid grid-cols-4 w-60 gap-2 absolute top-full left-0
-right-0 p-3 mt-2 z-10 bg-white rounded-md border border-gray-200 shadow-sm">
+        <div className="grid grid-cols-4 w-60 gap-2 absolute top-full left-0 right-0 p-3 mt-2 z-10 bg-white rounded-md border border-gray-200 shadow-sm">
           {colors.map((color) => (
             <div
               key={color.value}

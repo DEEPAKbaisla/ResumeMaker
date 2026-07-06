@@ -1,67 +1,90 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import ClassicTemplate from "../assets/templates/ClassicTemplate";
 import MinimalImageTemplate from "../assets/templates/MinimalImageTemplate";
 import MinimalTemplate from "../assets/templates/MinimalTemplate";
 import ModernTemplate from "../assets/templates/ModernTemplate";
-const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
-  const renderTemplate = () => {
-    switch (template) {
-      case "modern":
-        return <ModernTemplate data={data} accentColor={accentColor} />;
-      case "minimal":
-        return <MinimalTemplate data={data} accentColor={accentColor} />;
-      case "minimal-image":
-        return <MinimalImageTemplate data={data} accentColor={accentColor} />;
+import ATsTemplate from "../assets/templates/ATsTemplate";
+import "./ResumePreview.css";
 
-      default:
-        return <ClassicTemplate data={data} accentColor={accentColor} />;
-    }
-  };
-  return (
-    <div className="w-full bg-gray-100">
-      <div
-        id="resume-preview"
-        className={
-          "border border-gray-200 print:shadow-none print:border-none" + classes
-        }>
-        {renderTemplate()}
-      </div>
-      <style jsx="true">
-        {`
-          @page {
-            size: letter;
-            margin: 0;
-          }
-          @media print {
-            html,
-            body {
-              width: 8.5in;
-              height: 11in;
-              overflow: hidden;
-            }
-            body * {
-              visibility: hidden;
-            }
-            #resume-preview,
-            #resume-preview * {
-              visibility: visible;
-            }
-            #resume-preview {
-              position: absolute;
-              left: 0;
-              top: 0;
-              width: 100%;
-              height: auto;
+const ResumePreview = forwardRef(
+  ({ data, template, accentColor, classes = "" }, ref) => {
+    const renderTemplate = () => {
+      switch (template) {
+        case "modern":
+          return <ModernTemplate data={data} accentColor={accentColor} />;
+
+        case "minimal":
+          return <MinimalTemplate data={data} accentColor={accentColor} />;
+
+        case "minimal-image":
+          return <MinimalImageTemplate data={data} accentColor={accentColor} />;
+
+        case "ats-friendly":
+          return <ATsTemplate data={data} accentColor={accentColor} />;
+
+        default:
+          return <ClassicTemplate data={data} accentColor={accentColor} />;
+      }
+    };
+
+    return (
+      <div className="w-full bg-gray-100">
+        <div
+          ref={ref}
+          id="resume-preview"
+          className={
+            "border border-gray-200 print:shadow-none print:border-none " +
+            classes
+          }>
+          {renderTemplate()}
+        </div>
+
+        <style jsx="true">
+          {`
+            @page {
+              size: letter;
               margin: 0;
-              padding: 0;
-              box-shadow: none !important;
-              border: none !imoertant;
             }
-          }
-        `}
-      </style>
-    </div>
-  );
-};
+
+            @media print {
+              .max-lg\\:hidden,
+              .lg\\:col-span-7 {
+                display: block !important;
+              }
+
+              html,
+              body {
+                width: 8.5in;
+                height: 11in;
+                overflow: hidden;
+              }
+
+              body * {
+                visibility: hidden !important;
+              }
+
+              #resume-preview,
+              #resume-preview * {
+                visibility: visible !important;
+              }
+
+              #resume-preview {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto;
+                margin: 0;
+                padding: 0;
+                box-shadow: none !important;
+                border: none !important;
+              }
+            }
+          `}
+        </style>
+      </div>
+    );
+  },
+);
 
 export default ResumePreview;

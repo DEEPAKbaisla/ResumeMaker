@@ -1,4 +1,11 @@
-import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Linkedin,
+  Globe,
+  ArrowUpRight as ArrowIcon,
+} from "lucide-react";
 
 const ModernTemplate = ({ data, accentColor }) => {
   const formatDate = (dateStr) => {
@@ -95,7 +102,7 @@ const ModernTemplate = ({ data, accentColor }) => {
                 <div
                   key={index}
                   className="relative pl-6 border-l border-gray-200">
-                  <div className="flex justify-between items-start mb-2">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-1">
                     <div>
                       <h3 className="text-xl font-medium text-gray-900">
                         {exp.position}
@@ -135,8 +142,27 @@ const ModernTemplate = ({ data, accentColor }) => {
                   style={{ borderLeftColor: accentColor }}>
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="text-lg font-medium text-gray-900">
-                        {p.name}
+                      <h3 className="text-lg font-medium flex items-center">
+                        {p.link ? (
+                          <a
+                            href={
+                              p.link.startsWith("http")
+                                ? p.link
+                                : `https://${p.link}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline flex items-center"
+                            style={{ color: accentColor }}>
+                            {p.name}
+                            <ArrowIcon
+                              size={14}
+                              className="inline-block ml-1.5 flex-shrink-0"
+                            />
+                          </a>
+                        ) : (
+                          p.name
+                        )}
                       </h3>
                     </div>
                   </div>

@@ -7,6 +7,7 @@ const ProjectForm = ({ data, onChange }) => {
       name: "",
       type: "",
       description: "",
+      link: "",
       graduation_date: "",
       gpa: "",
     };
@@ -51,11 +52,11 @@ const ProjectForm = ({ data, onChange }) => {
               <div
                 key={index}
                 className="p-4 border border-gray-200 rounded-lg space-y-3">
-                <div>
+                <div className="flex justify-between items-center">
                   <h4>Project #{index + 1}</h4>
                   <button
-                    onChange={() => removeProject(index)}
-                    className="text-red-500 hover:textred-700 transition-colors">
+                    onClick={() => removeProject(index)}
+                    className="text-red-500 hover:text-red-700 transition-colors">
                     <Trash2 className="size-4" />
                   </button>
                 </div>
@@ -88,6 +89,15 @@ const ProjectForm = ({ data, onChange }) => {
                     }
                     placeholder="Describe your project..."
                     className="w-full px-3 py-2 text-sm rounded-lg resize-none"
+                  />
+                  <input
+                    value={project.link || ""}
+                    onChange={(e) =>
+                      updateProject(index, "link", e.target.value)
+                    }
+                    type="text"
+                    placeholder="Project Link (URL)"
+                    className="px-3 py-2 text-sm rounded-lg"
                   />
                 </div>
               </div>

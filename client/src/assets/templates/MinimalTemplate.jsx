@@ -1,3 +1,5 @@
+import { ArrowUpRight as ArrowIcon } from "lucide-react";
+
 const MinimalTemplate = ({ data, accentColor }) => {
   const formatDate = (dateStr) => {
     if (!dateStr) return "";
@@ -109,7 +111,28 @@ const MinimalTemplate = ({ data, accentColor }) => {
               <div
                 key={index}
                 className="flex flex-col gap-2 justify-between items-baseline">
-                <h3 className="text-lg font-medium ">{proj.name}</h3>
+                <h3 className="text-lg font-medium flex items-center">
+                  {proj.link ? (
+                    <a
+                      href={
+                        proj.link.startsWith("http")
+                          ? proj.link
+                          : `https://${proj.link}`
+                      }
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline flex items-center"
+                      style={{ color: accentColor }}>
+                      {proj.name}
+                      <ArrowIcon
+                        size={14}
+                        className="inline-block ml-1.5 flex-shrink-0"
+                      />
+                    </a>
+                  ) : (
+                    proj.name
+                  )}
+                </h3>
                 <p className="text-gray-600">{proj.description}</p>
               </div>
             ))}
