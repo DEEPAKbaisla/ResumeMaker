@@ -9,15 +9,6 @@ import aiRouter from "./routes/aiRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 4444;
 app.use(express.json());
-// app.use(cors());
-// app.use(
-//   cors({
-//     origin: ["localhost:5173", "https://resumebuilder-silk-theta.vercel.app"],
-//     credentials: true,
-//     allowedHeaders: ["Content-Type", "Authorization"], // ✅ crucial
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//   })
-// );
 const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? ["https://resumebuilder-silk-theta.vercel.app"] // your deployed frontend
@@ -27,10 +18,8 @@ app.use(
   cors({
     origin: allowedOrigins,
     credentials: true, // if you’re using cookies/auth
-  })
+  }),
 );
-console.log("Running in:", process.env.NODE_ENV);
-
 connectDB();
 app.get("/", (req, res) => res.send("server is running .."));
 app.use("/api/users", userRouter);

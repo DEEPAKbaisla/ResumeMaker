@@ -293,6 +293,7 @@ export const loginUser = async (req, res) => {
     //   agr match krta h to token generate krdo
     const token = generateToken(user._id);
     user.password = undefined;
+    console.log("Generated Token:", token);
 
     res.status(200).json({ message: "Login successful", token, user });
   } catch (error) {

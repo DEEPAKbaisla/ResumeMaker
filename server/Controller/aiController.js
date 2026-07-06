@@ -59,7 +59,10 @@ export const enchanceJobDescription = async (req, res) => {
     const enhanceContent = response.choices[0].message.content;
     return res.status(200).json({ enhanceContent });
   } catch (err) {
-    return res.status(400).json({ message: err.messages });
+    console.error(err);
+    return res.status(500).json({
+      message: err.message,
+    });
   }
 };
 
@@ -118,7 +121,6 @@ export const uploadResume = async (req, res) => {
     
     }`;
 
-
     const response = await ai.chat.completions.create({
       model: process.env.OPENAI_MODEL,
       messages: [
@@ -140,18 +142,11 @@ export const uploadResume = async (req, res) => {
     const newResume = await Resume.create({ userId, title, ...parseData });
     res.json({ resumeId: newResume._id });
   } catch (err) {
-    // catch (err) {
-    //   console.error(err);
-    //   return res.status(400).json({ message: err.message });
-    // }
-
     console.error("Upload Resume Error:", err);
 
     return res.status(500).json({
       success: false,
       message: err.message,
-      stack: err.stack, // remove this in production
     });
   }
 };
-
