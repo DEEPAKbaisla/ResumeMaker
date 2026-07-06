@@ -39,6 +39,7 @@ const ResumeSchema = new mongoose.Schema({
       start_date: { type: String },
       end_date: { type: String },
       description: { type: String },
+      is_current: { type: Boolean, default: false },
     },
   ],
   project: [
@@ -46,6 +47,7 @@ const ResumeSchema = new mongoose.Schema({
       name: { type: String },
       type: { type: String },
       description: { type: String },
+      link: { type: String },
     },
   ],
   education: [

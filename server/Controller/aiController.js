@@ -68,8 +68,10 @@ export const uploadResume = async (req, res) => {
   try {
     const { resumeText, title } = req.body;
     const userId = req.userId;
-    if (!resumeText) {
-      return res.status(400).json({ message: "Missing required fields" });
+    if (!resumeText || !title) {
+      return res.status(400).json({
+        message: "Title and Resume Text are required",
+      });
     }
     const systemPrompt = "You are an expert AI Agent to extract fro resume.";
 
@@ -115,6 +117,8 @@ export const uploadResume = async (req, res) => {
     },]
     
     }`;
+
+
     const response = await ai.chat.completions.create({
       model: process.env.OPENAI_MODEL,
       messages: [
@@ -136,6 +140,18 @@ export const uploadResume = async (req, res) => {
     const newResume = await Resume.create({ userId, title, ...parseData });
     res.json({ resumeId: newResume._id });
   } catch (err) {
-    return res.status(400).json({ message: err.messages });
+    // catch (err) {
+    //   console.error(err);
+    //   return res.status(400).json({ message: err.message });
+    // }
+
+    console.error("Upload Resume Error:", err);
+
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+      stack: err.stack, // remove this in production
+    });
   }
 };
+

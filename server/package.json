@@ -20,7 +20,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.2",
     "multer": "^2.0.2",
-    "openai": "^6.7.0"
+    "nodemailer": "^9.0.3",
+    "openai": "^6.7.0",
+    "otp-generator": "^4.0.1",
+    "resend": "^6.17.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
