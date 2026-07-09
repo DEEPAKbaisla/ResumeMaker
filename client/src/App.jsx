@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Toaster } from "react-hot-toast";
 
@@ -64,6 +64,13 @@ const App = () => {
       </div>
     );
   };
+  const location = useLocation();
+
+  useEffect(() => {
+    window.gtag?.("config", "G-E1VY11LGJ3", {
+      page_path: location.pathname,
+    });
+  }, [location.pathname]);
 
   return (
     <>

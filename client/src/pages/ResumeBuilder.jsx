@@ -31,6 +31,7 @@ import { useSelector } from "react-redux";
 import api from "../configs/api";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
+import { Helmet } from "react-helmet-async";
 
 const ResumeBuilder = () => {
   const { resumeId } = useParams();
@@ -137,6 +138,15 @@ const ResumeBuilder = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Build Your Resume | AI Resume Builder</title>
+
+        <meta
+          name="description"
+          content="Create and customize your professional resume with our AI-powered resume builder."
+        />
+      </Helmet>
+
       <div className="max-w-7xl mx-auto px-4 py-6">
         <Link
           to={"/app"}
