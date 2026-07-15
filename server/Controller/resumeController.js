@@ -9,6 +9,17 @@ export const createResume = async (req, res) => {
     // const userId = req.user; //user id from auth middleware
     const userId = req.userId;
     // console.log("aaaya kuch :", userId);
+    
+    // Check if user has already created 5 resumes in the last hour
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+    const count = await Resume.countDocuments({
+      userId,
+      createdAt: { $gte: oneHourAgo }
+    });
+    if (count >= 5) {
+      return res.status(429).json({ message: "You have reached the limit of 5 resumes per hour. Please try again later." });
+    }
+
     const { title } = req.body;
     //create new resume
     const newResume = await Resume.create({ userId, title });

@@ -7,7 +7,6 @@ import puppeteer from "puppeteer";
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API,
 });
-console.log("AI service initialized" ,process.env.GEMINI_API);
 
 const interviewReportSchema = z.object({
   matchScore: z
@@ -187,6 +186,7 @@ async function generateInterviewReport({
     config: {
       responseMimeType: "application/json",
       responseSchema: responseSchema, // ✅ plain object instead of zodToJsonSchema
+      // responseSchema: zodToJsonSchema(interviewReportSchema),
     },
   });
 
@@ -240,7 +240,7 @@ The resume should be so lengthy ,it should ideally be 1 pages long only when con
   });
 
   const jsonContent = JSON.parse(response.text);
-  // console.log("Generated HTML:", jsonContent.html); 
+  // console.log("Generated HTML:", jsonContent.html);
 
   const pdfBuffer = await generatePdfFromHtml(jsonContent.html);
 

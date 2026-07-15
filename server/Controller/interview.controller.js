@@ -15,6 +15,18 @@ import interviewReportModel from "../model/interviewReport.model.js";
 
 export const generateInterviewReportController = async (req, res) => {
   try {
+    const userId = req.userId || req.user?.id;
+
+    // Check if user has already created 5 interview reports in the last hour
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+    const count = await interviewReportModel.countDocuments({
+      user: userId,
+      createdAt: { $gte: oneHourAgo }
+    });
+    if (count >= 5) {
+      return res.status(429).json({ message: "You have reached the limit of 5 interview reports per hour. Please try again later." });
+    }
+
     if (!req.file) {
       return res.status(400).json({ message: "Resume file is required" });
     }
@@ -32,7 +44,7 @@ export const generateInterviewReportController = async (req, res) => {
     });
 
     const interviewReport = await interviewReportModel.create({
-      user: req.user.id,
+      user: userId,
       // resume: resumeContent.text,
       resume: text,
       selfDescription,
@@ -125,6 +137,36 @@ export const generateResumePdfController = async (req, res) => {
     "content-Disposition": `attachment; filename=resume_${interviewReportId}.pdf`,
   });
   res.send(pdfBuffer);
+};
+
+/**
+ * @description controller to delete an interview report by ID
+ */
+export const deleteInterviewReportController = async (req, res) => {
+  try {
+    const { interviewId } = req.params;
+
+    const interviewReport = await interviewReportModel.findOneAndDelete({
+      _id: interviewId,
+      user: req.user.id,
+    });
+
+    if (!interviewReport) {
+      return res.status(404).json({
+        message: "Interview report not found or unauthorized",
+      });
+    }
+
+    res.status(200).json({
+      message: "Interview report deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting interview report:", error);
+    res.status(500).json({
+      message: "Failed to delete interview report",
+      error: error.message,
+    });
+  }
 };
 
 // export default {

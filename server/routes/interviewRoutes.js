@@ -6,6 +6,7 @@ import {
   generateResumePdfController,
   getAllInterviewReportscontroller,
   getInterviewReportById,
+  deleteInterviewReportController,
 } from "../Controller/interview.controller.js";
 
 const interviewRouter = express.Router();
@@ -18,6 +19,8 @@ interviewRouter.post(
 );
 
 interviewRouter.get("/report/:interviewId", authUser, getInterviewReportById);
+
+interviewRouter.delete("/report/:interviewId", authUser, deleteInterviewReportController);
 
 interviewRouter.get("/", authUser, getAllInterviewReportscontroller);
 
