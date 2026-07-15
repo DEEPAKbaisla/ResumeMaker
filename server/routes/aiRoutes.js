@@ -4,12 +4,12 @@ import {
   enchanceSummary,
   uploadResume,
 } from "../Controller/aiController.js";
-import protect from "../middleware/authMiddleware.js";
+import { authUser} from "../middleware/authMiddleware.js";
 
 const aiRouter = express.Router();
 
-aiRouter.post("/enhance-pro-sum", protect, enchanceSummary);
-aiRouter.post("/enhance-job-desc", protect, enchanceJobDescription);
-aiRouter.post("/upload-resume", protect, uploadResume);
+aiRouter.post("/enhance-pro-sum", authUser, enchanceSummary);
+aiRouter.post("/enhance-job-desc", authUser, enchanceJobDescription);
+aiRouter.post("/upload-resume", authUser, uploadResume);
 
 export default aiRouter;

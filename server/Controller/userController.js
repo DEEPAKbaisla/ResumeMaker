@@ -7,6 +7,7 @@ import bcrypt from "bcrypt";
 import { sendEmail } from "../utils/sendEmail.js";
 import { otpTemplate } from "../utils/templates/otpTemplate.js";
 import { welcomeTemplate } from "../utils/templates/welcomeTemplate.js";
+import tokenBlacklistModel from "../model/blacklist.model.js";
 
 const generateToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
@@ -32,11 +33,34 @@ export const registerUser = async (req, res) => {
     const newUser = await User.create({ name, email, password });
 
     // return succes mssg
-    const token = generateToken(newUser._id);
-    newUser.password = undefined;
-    res
-      .status(201)
-      .json({ message: "User registered successfully", user: newUser, token });
+    // const token = generateToken(newUser._id);
+    // newUser.password = undefined;
+    // res
+    //   .status(201)
+    //   .json({ message: "User registered successfully", user: newUser, token });
+
+    const token = jwt.sign(
+      { id: user._id, username: user.username },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      },
+    );
+    // res.cookie("token",token)
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    return res.status(201).json({
+      message: "User login successfully",
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -192,6 +216,12 @@ export const verifyOtp = async (req, res) => {
     });
 
     const token = generateToken(user._id);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
 
     await sendEmail({
       to: user.email,
@@ -286,16 +316,45 @@ export const loginUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
+    if (!user.isVerified) {
+      return res.status(403).json({
+        message: "Please verify your email first.",
+      });
+    }
+
     if (!user.comparePassword(password)) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     //   agr match krta h to token generate krdo
-    const token = generateToken(user._id);
-    user.password = undefined;
-    console.log("Generated Token:", token);
+    // const token = generateToken(user._id);
+    // user.password = undefined;
+    // console.log("Generated Token:", token);
 
-    res.status(200).json({ message: "Login successful", token, user });
+    // res.status(200).json({ message: "Login successful", token, user });
+
+    const token = jwt.sign(
+      { id: user._id, username: user.username },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      },
+    );
+    // res.cookie("token",token)
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    return res.status(201).json({
+      message: "User login successfully",
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -327,4 +386,29 @@ export const getUserResumes = async (req, res) => {
     const resumes = await Resume.find({ userId });
     res.status(200).json({ resumes });
   } catch (error) {}
+};
+
+export const getMeController = async (req, res) => {
+  const user = await userModel.findById(req.user.id);
+
+  res.status(200).json({
+    message: "User details fetched successfully",
+    user: {
+      id: user._id,
+      username: user.username,
+      email: user.email,
+    },
+  });
+};
+
+export const logoutUserController = async (req, res) => {
+  const token = req.cookies.token;
+
+  if (token) {
+    await tokenBlacklistModel.create({ token });
+  }
+  res.clearCookie("token");
+  res.status(200).json({
+    message: "User logged out successfully",
+  });
 };

@@ -26,8 +26,9 @@
 //   }
 // };
 
-
 import nodemailer from "nodemailer";
+console.log("EMAIL:", process.env.EMAIL);
+console.log("EMAIL_PASSWORD:", process.env.EMAIL_PASSWORD);
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -36,9 +37,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD,
   },
 });
-
-// console.log("Email is ==", process.env.EMAIL);
-// console.log("Email Password is ==", process.env.EMAIL_PASSWORD);
 
 export const sendEmail = async ({ to, subject, html }) => {
   try {

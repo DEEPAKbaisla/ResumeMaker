@@ -1,5 +1,5 @@
 import express from "express";
-import protect from "../middleware/authMiddleware.js";
+import { authUser } from "../middleware/authMiddleware.js";
 import {
   createResume,
   deleteResume,
@@ -11,10 +11,10 @@ import upload from "../middleware/multer.js";
 
 const resumeRouter = express.Router();
 
-resumeRouter.post("/create", protect, createResume);
-resumeRouter.put("/update", upload.single("image"), protect, updateResume);
-resumeRouter.delete("/delete/:resumeId", protect, deleteResume);
-resumeRouter.get('/get/:resumeId',protect ,getResumeById)
-resumeRouter.get('/public/:resumeId' ,getPublicResumeById)
+resumeRouter.post("/create", authUser, createResume);
+resumeRouter.put("/update", upload.single("image"), authUser, updateResume);
+resumeRouter.delete("/delete/:resumeId", authUser, deleteResume);
+resumeRouter.get("/get/:resumeId", authUser, getResumeById);
+resumeRouter.get("/public/:resumeId", getPublicResumeById);
 
-export default resumeRouter
+export default resumeRouter;
