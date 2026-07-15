@@ -14,6 +14,8 @@ const Preview = lazy(() => import("./pages/Preview"));
 const Login = lazy(() => import("./pages/Login"));
 const VerifyOtp = lazy(() => import("./pages/VerifyOtp"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
+const InterviewPrep = lazy(() => import("./pages/InterviewPrep"));
+const InterviewReport = lazy(() => import("./pages/InterviewReport"));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -117,6 +119,8 @@ const App = () => {
           <Route path="app" element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path="builder/:resumeId" element={<ResumeBuilder />} />
+            <Route path="interview-prep" element={<InterviewPrep />} />
+            <Route path="interview-prep/:interviewId" element={<InterviewReport />} />
           </Route>
 
           <Route path="view/:resumeId" element={<Preview />} />

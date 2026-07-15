@@ -30,9 +30,9 @@ const Hero = () => {
       desc: "Choose from recruiter-approved resume designs.",
     },
     {
-      title: "Instant PDF Export",
-      desc: "Download high-quality resumes with one click.",
-    },
+  title: "AI Resume Matcher",
+  desc: "Analyze resume against any job description with AI",
+}
   ];
 
   return (

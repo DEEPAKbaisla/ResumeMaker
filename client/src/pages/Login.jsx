@@ -81,7 +81,6 @@ const Login = () => {
           content="Login securely to access your resumes and continue building professional ATS-friendly resumes."
         />
       </Helmet>
-      ;
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 font-sans p-4 relative overflow-hidden">
         {/* Aesthetic Background Accents */}
 

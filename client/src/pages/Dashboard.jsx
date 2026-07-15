@@ -13,9 +13,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import api from "../configs/api.js"
+import api from "../configs/api.js";
 import { Helmet } from "react-helmet-async";
-
 
 const Dashboard = () => {
   const { user, token } = useSelector((state) => state.auth);
@@ -31,6 +30,11 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [resumeToDelete, setResumeToDelete] = useState(null);
+
+  const resumesInLastHour = allResumes.filter(
+    (resume) =>
+      new Date(resume.createdAt) >= new Date(Date.now() - 60 * 60 * 1000),
+  );
 
   const loadAllResumes = async () => {
     try {
@@ -150,19 +154,64 @@ const Dashboard = () => {
 
       <div className="font-sans text-slate-900 pb-20">
         <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="mb-10">
-            <h1 className="text-3xl font-bold tracking-tight mb-2">
-              My Resumes
-            </h1>
-            <p className="text-slate-500">
-              Manage your documents and track your applications.
-            </p>
+          <div className="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-3 mb-2 flex-wrap">
+                <h1 className="text-3xl font-bold tracking-tight">
+                  My Resumes
+                </h1>
+                <span className="inline-block bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-full">
+                  {resumesInLastHour.length}/5 Resumes (Last Hour)
+                </span>
+              </div>
+              <p className="text-slate-500">
+                Manage your documents and track your applications.
+              </p>
+            </div>
+
+            {/* AI Banner */}
+
+            <div className="flex-1 max-w-2xl bg-gradient-to-r from-green-600 to-emerald-700 rounded-2xl p-5 md:p-6 text-white shadow-md relative overflow-hidden border border-emerald-500/20">
+              <div className="absolute -right-10 -bottom-10 h-40 w-40 bg-white/10 rounded-full blur-2xl group-hover:scale-110 transition-transform duration-500"></div>
+
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                <div className="flex-1">
+                  <span className="inline-block bg-white/25 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                    AI Powered
+                  </span>
+
+                  <h3 className="font-bold text-xl md:text-lg lg:text-xl mt-3 mb-2">
+                    AI Interview Coach & Resume Matcher
+                  </h3>
+
+                  <p className="text-emerald-100 text-sm md:text-xs lg:text-sm leading-relaxed">
+                    Analyze your resume against any job description to get a
+                    matching score, identify critical skill gaps, and get a
+                    tailored 7-day preparation plan with custom interview Q&As.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => navigate("/app/interview-prep")}
+                  className="w-full sm:w-auto bg-white text-emerald-700 hover:bg-emerald-50 font-bold text-sm px-6 py-3 rounded-xl shadow-sm active:scale-95 transition-all cursor-pointer">
+                  Analyze Resume
+                </button>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {/* Create New Card */}
             <button
-              onClick={() => setShowCreateResume(true)}
+              onClick={() => {
+                if (resumesInLastHour.length >= 5) {
+                  toast.error(
+                    "You have reached the limit of 5 resumes per hour. Please try again later.",
+                  );
+                } else {
+                  setShowCreateResume(true);
+                }
+              }}
               className="w-full h-[260px] bg-white flex flex-col items-center justify-center rounded-2xl gap-4 border border-slate-200 group hover:border-green-500 hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden relative">
               <div className="absolute inset-0 bg-green-50/0 group-hover:bg-green-50/50 transition-colors duration-300"></div>
               <div className="relative z-10 size-14 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-green-100 group-hover:scale-110 transition-all duration-300 border border-slate-100 group-hover:border-green-200">
@@ -175,7 +224,15 @@ const Dashboard = () => {
 
             {/* Upload Resume Card */}
             <button
-              onClick={() => setShowUploadResume(true)}
+              onClick={() => {
+                if (resumesInLastHour.length >= 5) {
+                  toast.error(
+                    "You have reached the limit of 5 resumes per hour. Please try again later.",
+                  );
+                } else {
+                  setShowUploadResume(true);
+                }
+              }}
               className="w-full h-[260px] bg-white flex flex-col items-center justify-center rounded-2xl gap-4 border border-slate-200 group hover:border-violet-500 hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden relative">
               <div className="absolute inset-0 bg-violet-50/0 group-hover:bg-violet-50/50 transition-colors duration-300"></div>
               <div className="relative z-10 size-14 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-violet-100 group-hover:scale-110 transition-all duration-300 border border-slate-100 group-hover:border-violet-200">

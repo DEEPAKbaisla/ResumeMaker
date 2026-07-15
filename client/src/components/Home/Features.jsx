@@ -1,5 +1,5 @@
 import React from "react";
-import { Zap, Activity, Shield, FileText } from "lucide-react";
+import { Zap, Activity, Shield, FileText, BrainCircuit, TargetIcon } from "lucide-react";
 
 const Features = () => {
   return (
@@ -21,6 +21,61 @@ const Features = () => {
       {/* Bento Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl relative z-10">
         
+        {/* AI Job Match - Full width hero card */}
+        <div className="col-span-1 md:col-span-2 lg:col-span-3 group relative p-8 rounded-3xl bg-gradient-to-br from-green-600 via-emerald-600 to-teal-700 text-white hover:shadow-2xl transition-all duration-300 overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-[80px] -z-0 group-hover:scale-110 transition-transform duration-500" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-[80px] -z-0" />
+          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-12 w-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30 group-hover:scale-110 transition-transform duration-300">
+                  <BrainCircuit className="text-white size-6" />
+                </div>
+                <span className="text-xs font-bold bg-white/20 border border-white/30 px-3 py-1 rounded-full uppercase tracking-wider">
+                  AI Powered • New
+                </span>
+              </div>
+              <h3 className="text-3xl font-extrabold mb-3 tracking-tight">
+                AI Interview Coach & Resume Matcher
+              </h3>
+              <p className="text-green-100 text-lg leading-relaxed max-w-2xl">
+                Analyze job requirements and your profile to build a winning strategy. Get a match score, uncover critical skill gaps, receive a tailored 7-day prep plan, and practice with custom interview Q&As — all powered by Gemini AI.
+              </p>
+              <div className="flex flex-wrap gap-3 mt-6">
+                {["Match Score", "Skill Gap Analysis", "7-Day Prep Plan", "Mock Interview Q&A", "Tailored Resume PDF"].map((tag) => (
+                  <span key={tag} className="text-xs font-semibold bg-white/20 border border-white/20 px-3 py-1.5 rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {/* Visual mock */}
+            <div className="w-full lg:w-72 h-44 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20 p-5 flex flex-col justify-between shrink-0 shadow-inner">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-bold text-green-100 uppercase tracking-wider">Match Score</span>
+                <span className="text-2xl font-black text-white">87%</span>
+              </div>
+              <div className="space-y-2">
+                {[
+                  { label: "Technical Skills", pct: 90, color: "bg-white" },
+                  { label: "Experience", pct: 80, color: "bg-green-200" },
+                  { label: "Keywords", pct: 75, color: "bg-emerald-200" },
+                ].map((bar) => (
+                  <div key={bar.label}>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[10px] text-green-100 font-medium">{bar.label}</span>
+                      <span className="text-[10px] text-white font-bold">{bar.pct}%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
+                      <div className={`h-full ${bar.color} rounded-full opacity-90`} style={{ width: `${bar.pct}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Large Feature Card */}
         <div className="col-span-1 md:col-span-2 lg:col-span-2 group relative p-8 rounded-3xl border border-slate-200 bg-white hover:shadow-xl transition-all duration-300 overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-violet-100 rounded-full blur-[80px] -z-10 group-hover:bg-violet-200 transition-all duration-500"></div>
@@ -97,3 +152,4 @@ const Features = () => {
 };
 
 export default Features;
+
