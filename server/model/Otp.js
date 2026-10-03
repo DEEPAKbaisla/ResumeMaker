@@ -15,10 +15,10 @@ const otpSchema = new mongoose.Schema(
       trim: true,
     },
 
-    // Hashed password from registration
+    // Hashed password from registration (used for email verification)
     password: {
       type: String,
-      required: true,
+      required: false,
     },
 
     // Hashed OTP
@@ -36,6 +36,14 @@ const otpSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+
+    // Distinguish between email verification and password reset
+    purpose: {
+      type: String,
+      enum: ["verify-email", "reset-password"],
+      default: "verify-email",
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -44,6 +52,9 @@ const otpSchema = new mongoose.Schema(
 
 // Automatically delete expired OTP documents
 otpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+
+// Compound index for efficient lookups by email + purpose
+otpSchema.index({ email: 1, purpose: 1 });
 
 const Otp = mongoose.model("Otp", otpSchema);
 

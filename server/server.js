@@ -18,10 +18,8 @@ app.set("trust proxy", 1);
 
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? ["https://resumebuilder-silk-theta.vercel.app"] // your deployed frontend
-    : ["http://localhost:5173"]; // your local frontend
+
+const allowedOrigins = [process.env.FRONTEND_URL];
 
 app.use(
   cors({
@@ -29,7 +27,6 @@ app.use(
     credentials: true, // if you’re using cookies/auth
   }),
 );
-connectDB();
 
 // General rate limiter for all API endpoints
 const apiLimiter = rateLimit({
@@ -65,6 +62,13 @@ app.use("/api/resumes", resumeRouter);
 app.use("/api/ai", aiRouter);
 app.use("/api/interview", interviewRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on  PORT : ${PORT}`);
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on PORT: ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to connect to the database:", err);
+    process.exit(1);
+  });
