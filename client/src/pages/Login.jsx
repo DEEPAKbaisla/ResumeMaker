@@ -1,20 +1,21 @@
-import { Lock, Mail, User2Icon } from "lucide-react";
+import { Lock, Mail, User2Icon, Eye, EyeOff } from "lucide-react";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../app/features/authSlice";
 import toast from "react-hot-toast";
 import api from "../configs/api";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const query = new URLSearchParams(window.location.search);
-  const urlState = query.get("state");
+  const [searchParams] = useSearchParams();
+  const urlState = searchParams.get("state");
+  const redirectUrl = searchParams.get("redirect") || sessionStorage.getItem("authRedirect") || "/app";
   const [state, setState] = React.useState(urlState || "login");
   const [loading, setLoading] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const [formdata, setFormData] = React.useState({
     name: "",
@@ -50,6 +51,8 @@ const Login = () => {
 
         toast.success(data.message);
 
+        sessionStorage.removeItem("authRedirect");
+        navigate(decodeURIComponent(redirectUrl), { replace: true });
         return;
       }
 
@@ -62,6 +65,7 @@ const Login = () => {
       navigate("/verify-otp", {
         state: {
           email: formdata.email,
+          redirect: redirectUrl,
         },
       });
     } catch (error) {
@@ -147,17 +151,24 @@ const Login = () => {
             />
           </div>
 
-          <div className="flex items-center w-full mb-2 bg-slate-50 border border-slate-200 focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-100 transition-all h-12 rounded-xl overflow-hidden px-4 gap-3">
+          <div className="relative flex items-center w-full mb-2 bg-slate-50 border border-slate-200 focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-100 transition-all h-12 rounded-xl overflow-hidden px-4 gap-3">
             <Lock size={18} className="text-slate-400" />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
-              className="bg-transparent text-slate-800 placeholder-slate-400 outline-none text-sm w-full h-full font-medium"
+              className="no-global-input bg-transparent text-slate-800 placeholder-slate-400 outline-none text-sm w-full h-full font-medium pr-12"
               name="password"
               value={formdata.password}
               onChange={onChangeHandler}
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 text-slate-400 hover:text-slate-600 transition-colors p-1"
+              aria-label={showPassword ? "Hide password" : "Show password"}>
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
           </div>
 
           {state === "register" && (
@@ -179,11 +190,13 @@ const Login = () => {
 
           {state === "login" && (
             <div className="mb-8 text-right">
-              <a
+              <Link
+                to="/forgot-password"
+                state={{ email: formdata.email }}
                 className="text-sm font-medium text-slate-500 hover:text-green-600 transition-colors"
-                href="#">
+              >
                 Forgot password?
-              </a>
+              </Link>
             </div>
           )}
 

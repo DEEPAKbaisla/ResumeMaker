@@ -16,6 +16,11 @@ const VerifyOtp = lazy(() => import("./pages/VerifyOtp"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const InterviewPrep = lazy(() => import("./pages/InterviewPrep"));
 const InterviewReport = lazy(() => import("./pages/InterviewReport"));
+// const PdfEditor = lazy(() => import("./pages/PdfEditor"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const VerifyResetOtp = lazy(() => import("./pages/VerifyResetOtp"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const ProtectedRoute = lazy(() => import("./components/ProtectedRoute"));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -115,12 +120,18 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-reset-otp" element={<VerifyResetOtp />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
-          <Route path="app" element={<Layout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="builder/:resumeId" element={<ResumeBuilder />} />
-            <Route path="interview-prep" element={<InterviewPrep />} />
-            <Route path="interview-prep/:interviewId" element={<InterviewReport />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="app" element={<Layout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="builder/:resumeId" element={<ResumeBuilder />} />
+              <Route path="interview-prep" element={<InterviewPrep />} />
+              <Route path="interview-prep/:interviewId" element={<InterviewReport />} />
+              {/* <Route path="pdf-editor" element={<PdfEditor />} /> */}
+            </Route>
           </Route>
 
           <Route path="view/:resumeId" element={<Preview />} />

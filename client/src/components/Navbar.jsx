@@ -6,6 +6,7 @@ import { logout } from "../app/features/authSlice";
 import {
   FileTextIcon,
   BrainIcon,
+  FilePenLineIcon,
   LogOutIcon,
 } from "lucide-react";
 
@@ -44,6 +45,14 @@ const Navbar = () => {
             <BrainIcon className="size-4" />
             AI Interview Prep
           </Link>
+
+          {/* <Link
+            to="/app/pdf-editor"
+            className="flex items-center gap-1.5 text-slate-600 hover:text-green-600 transition-colors font-semibold">
+            <FilePenLineIcon className="size-4" />
+            PDF Editor
+          </Link> */}
+
           <p className="text-slate-400 border-l border-slate-200 pl-4 text-sm">
             Hi, <span className="capitalize font-semibold text-slate-700">{user?.name}</span>
           </p>
@@ -69,6 +78,14 @@ const Navbar = () => {
             className="p-2.5 rounded-xl text-slate-500 hover:text-green-600 hover:bg-green-50 transition-all">
             <BrainIcon className="size-5" />
           </Link>
+
+          {/* <Link
+            to="/app/pdf-editor"
+            title="PDF Editor"
+            className="p-2.5 rounded-xl text-slate-500 hover:text-green-600 hover:bg-green-50 transition-all">
+            <FilePenLineIcon className="size-5" />
+          </Link> */}
+          
           <div className="w-px h-5 bg-slate-200 mx-1" />
           <button
             onClick={logoutuser}

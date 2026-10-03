@@ -1,4 +1,5 @@
 import {
+  FileEditIcon,
   FilePenLineIcon,
   LoaderCircleIcon,
   PencilIcon,
@@ -242,6 +243,19 @@ const Dashboard = () => {
                 Upload PDF
               </p>
             </button>
+
+            {/* PDF Editor Card */}
+            {/* <button
+              onClick={() => navigate("/app/pdf-editor")}
+              className="w-full h-[260px] bg-white flex flex-col items-center justify-center rounded-2xl gap-4 border border-slate-200 group hover:border-blue-500 hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden relative">
+              <div className="absolute inset-0 bg-blue-50/0 group-hover:bg-blue-50/50 transition-colors duration-300"></div>
+              <div className="relative z-10 size-14 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-blue-100 group-hover:scale-110 transition-all duration-300 border border-slate-100 group-hover:border-blue-200">
+                <FileEditIcon className="size-6 text-slate-400 group-hover:text-blue-600 transition-colors" />
+              </div>
+              <p className="relative z-10 font-semibold text-slate-700 group-hover:text-blue-700 transition-colors">
+                PDF Editor
+              </p>
+            </button> */}
 
             {/* Existing Resumes */}
             {allResumes.map((resume, index) => {

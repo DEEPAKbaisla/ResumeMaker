@@ -2,17 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../configs/api";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { login } from "../app/features/authSlice";
 import OtpInput from "react-otp-input";
 
-const VerifyOtp = () => {
+const VerifyResetOtp = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch();
 
   const email = location.state?.email;
-  const redirectUrl = location.state?.redirect || "/app";
 
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,7 +17,7 @@ const VerifyOtp = () => {
 
   useEffect(() => {
     if (!email) {
-      navigate("/login");
+      navigate("/forgot-password");
     }
   }, [email, navigate]);
 
@@ -43,20 +39,18 @@ const VerifyOtp = () => {
     try {
       setLoading(true);
 
-      const { data } = await api.post("/api/users/verify-otp", {
+      const { data } = await api.post("/api/users/verify-reset-otp", {
         email,
         otp,
       });
 
-      dispatch(login(data));
-
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
       toast.success(data.message);
 
-      sessionStorage.removeItem("authRedirect");
-      navigate(decodeURIComponent(redirectUrl), { replace: true });
+      // Persist resetToken in sessionStorage (survives refresh)
+      sessionStorage.setItem("resetToken", data.resetToken);
+      sessionStorage.setItem("resetEmail", email);
+
+      navigate("/reset-password");
     } catch (error) {
       toast.error(error.response?.data?.message || "OTP verification failed");
     } finally {
@@ -68,14 +62,13 @@ const VerifyOtp = () => {
     try {
       setResending(true);
 
-      const { data } = await api.post("/api/users/resend-otp", {
+      const { data } = await api.post("/api/users/forgot-password", {
         email,
       });
 
       toast.success(data.message);
 
       setSeconds(60);
-
       setOtp("");
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
@@ -87,7 +80,7 @@ const VerifyOtp = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100">
       <div className="bg-white p-8 rounded-xl shadow-lg w-[400px]">
-        <h1 className="text-2xl font-bold text-center">Verify Email</h1>
+        <h1 className="text-2xl font-bold text-center">Reset Password</h1>
 
         <p className="text-gray-500 mt-2 text-center">OTP has been sent to</p>
 
@@ -130,4 +123,4 @@ const VerifyOtp = () => {
   );
 };
 
-export default VerifyOtp;
+export default VerifyResetOtp;
